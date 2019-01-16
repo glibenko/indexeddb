@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script>
+  (async function() {
+  'use strict';
+
+  //check for support
+  if (!('indexedDB' in window)) {
+    console.log('This browser doesn\'t support IndexedDB');
+    return;
+  }
+
+  const request = window.indexedDB.open("MyTestDatabase", 4, (e) => {
+  
+  console.log('e', e)
+
+  });
+  console.log('request', request);
+
+var db;
+  request.onsuccess = function(e) {
+    db = event.target.result;
+    console.log('e', e, db);
+
+    // var objectStore = db.createObjectStore("test-db1", { keyPath: "myKey" });
+};
+
+request.onupgradeneeded = function(event) { 
+  // Save the IDBDatabase interface 
+  db = event.target.result;
+  console.log('onupgradeneeded', db);
+  // Create an objectStore for this database
+  var objectStore = db.createObjectStore("customers", { keyPath: "ssn" });
+  objectStore.createIndex("name", "name", { unique: false });
+
+  // Create an index to search customers by email. We want to ensure that
+  // no two customers have the same email, so use a unique index.
+  objectStore.createIndex("email", "email", { unique: true });
+
+};
+
+  // request.onupgradeneeded = function(event) { 
+  // // Save the IDBDatabase interface 
+  // var db = event.target.result;
+
+  // // Create an objectStore for this database
+  // var objectStore = db.createObjectStore("name", { keyPath: "myKey" });
+// };
+// const dbPromise = idb.open('mydb', 1, (upgradeDB) => {
+//   upgradeDB.createObjectStore('store1')
+// })
+// .then(db => console.log('success'))
+
+  // request.onupgradeneeded = () => {
+  //   var db = request.result;
+  //   console.log('db', request);
+  //   db.createObjectStore("books", {keyPath: "isbn"});
+  // }
+  
+  // request.onsuccess = function() {
+  //   var db = request.result;
+  // };
+ 
+
+})();
+  </script>
+</head>
+<body>
+  
+</body>
+</html>
