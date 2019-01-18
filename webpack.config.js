@@ -22,7 +22,7 @@ if (NODE_ENV === 'production') {
 module.exports = {
   entry: [
     '@babel/polyfill',
-    path.resolve(__dirname, 'client', 'main.js'),
+    path.resolve(__dirname, 'client', 'plain.js'),
   ],
   output: {
     path: path.resolve(__dirname, ''),
